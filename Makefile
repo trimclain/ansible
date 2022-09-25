@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-all: ansible ssh
+all: ansible ssh ## Install ansible and my ssh keys
 	@# Installing everything
 	@echo "Installation finished"
 
@@ -25,5 +25,10 @@ ssh: ## Install my ssh keys
 	@chmod 644 ~/.ssh/id_rsa.pub
 	@# Decrypt my private key
 	@ansible-vault decrypt ~/.ssh/id_rsa
+	@# Move known_hosts and authorized_keys back to ~/.ssh
+	@if [ -f ~/.ssh.backup/known_hosts ]; then echo 'Found existing "~/.ssh.backup/known_hosts", moving it to "~/.ssh"' &&\
+		mv ~/.ssh.backup/known_hosts ~/.ssh; fi
+	@if [ -f ~/.ssh.backup/authorized_keys ]; then echo 'Found existing "~/.ssh.backup/authorized_keys", moving it to "~/.ssh"' &&\
+		mv ~/.ssh.backup/authorized_keys ~/.ssh; fi
 
 .PHONY: all help ansible ssh
