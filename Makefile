@@ -1,16 +1,25 @@
 SHELL := /bin/bash
 
+OS := $(shell awk -F= '$$1=="ID" { print $$2 ;}' /etc/os-release)
+
+ifeq ($(OS), ubuntu)
+	INSTALL = sudo apt install -y
+else
+	INSTALL = sudo pacman -S --noconfirm --needed
+endif
+
 all: ansible ssh ## Install ansible and my ssh keys
 	@# Installing everything
 	@echo "Installation finished"
 
 help: ## Print this help menu
-	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | \
+		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 ansible: ## Install ansible
 	@echo "==================================================================="
 	@if [ -f /usr/bin/ansible ]; then echo "[ansible]: Already installed";\
-		else echo "Installing ansible..." && sudo apt install ansible -y; fi
+		else echo "Installing ansible..." && $(INSTALL) ansible; fi
 
 ssh: ## Install my ssh keys
 	@echo "==================================================================="
