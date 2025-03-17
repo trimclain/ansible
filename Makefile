@@ -30,10 +30,10 @@ ssh: ## Install my ssh keys
 	@cp -r .ssh ~/.ssh
 	@# Set correct permissions
 	@chmod 700 ~/.ssh
-	@chmod 600 ~/.ssh/id_rsa
-	@chmod 644 ~/.ssh/id_rsa.pub
+	@chmod 600 ~/.ssh/id_ed25519
+	@chmod 644 ~/.ssh/id_ed25519.pub
 	@# Decrypt my private key
-	@ansible-vault decrypt ~/.ssh/id_rsa
+	@ansible-vault decrypt ~/.ssh/id_ed25519
 	@# Move known_hosts and authorized_keys back to ~/.ssh
 	@if [ -f ~/.ssh.backup/known_hosts ]; then echo 'Found existing "~/.ssh.backup/known_hosts", moving it to "~/.ssh"' &&\
 		mv ~/.ssh.backup/known_hosts ~/.ssh; fi
