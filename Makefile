@@ -34,10 +34,12 @@ ssh: ## Install my ssh keys
 	@chmod 644 ~/.ssh/id_ed25519.pub
 	@# Decrypt my private key
 	@ansible-vault decrypt ~/.ssh/id_ed25519
-	@# Move known_hosts and authorized_keys back to ~/.ssh
+	@# Move known_hosts, authorized_keys and config back to ~/.ssh
 	@if [ -f ~/.ssh.backup/known_hosts ]; then echo 'Found existing "~/.ssh.backup/known_hosts", moving it to "~/.ssh"' &&\
 		mv ~/.ssh.backup/known_hosts ~/.ssh; fi
 	@if [ -f ~/.ssh.backup/authorized_keys ]; then echo 'Found existing "~/.ssh.backup/authorized_keys", moving it to "~/.ssh"' &&\
 		mv ~/.ssh.backup/authorized_keys ~/.ssh; fi
+	@if [ -f ~/.ssh.backup/config ]; then echo 'Found existing "~/.ssh.backup/config", moving it to "~/.ssh"' &&\
+		mv ~/.ssh.backup/config ~/.ssh; fi
 
 .PHONY: all help ansible ssh
